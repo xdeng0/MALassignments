@@ -1,59 +1,60 @@
-# This program takes user inputs of their weight and height and calculates and outputs their BMI
+# This program takes user inputs of their weight and height and calculates their BMI
 # BMI = Weight (lbs) / Height^2 (inches) * 703
 
-.data
+.eqv print_int 1
+.eqv input_int 5
+.eqv print_str 4
+.eqv sys_exit 10
 
-Weight: .asciiz "Please enter your weight (lbs): "
-Feet: .asciiz "Please enter your height\nft:"
-Inch: .asciiz "inch: "
+        .data
+
+weight: .asciiz "Please enter your weight (lbs): "
+feet: .asciiz "Please enter your height\nft:"
+inch: .asciiz "inch: "
 BMI: .asciiz "Your BMI is: "
 
-.text
+        .text
 
 main:
 
-# prompts user to enter weight
-li $v0, 4
-la $a0, Weight
-syscall
+        li   $v0, print_str     # prompt user to enter weight
+        la   $a0, weight
+        syscall
 
-# reads input
-li $v0, 5
-syscall
-move $s0, $v0 #stores weight in $s0
+        li   $v0, input_int     # read input
+        syscall
+        move $s0, $v0           # load weight into $s0
 
-# prompts user to enter feet
-li $v0, 4
-la $a0, Feet
-syscall
+        li   $v0, print_str     # prompt user to enter feet
+        la   $a0, feet
+        syscall
 
-li $v0, 5
-syscall
-move $s1, $v0 #stores feet in $s1
+        li   $v0, input_int     # read input
+        syscall
+        move $s1, $v0           # load feet into $s1
 
-# prompts user to enter inch
-li $v0, 4
-la $a0, Inch
-syscall
+        li   $v0, print_str     # prompts user to enter inch
+        la   $a0, inch
+        syscall
 
-li $v0, 5
-syscall
-move $s2, $v0 # stores inch in $s2
+        li   $v0, input_int     # read input
+        syscall
+        move $s2, $v0           # load inch into $s2
 
-mul $t0, $s1, 12 # convert feet to inch
-add $t1, $t0, $s2 # calculate the total number of inches
-mul $t2, $t1, $t1 # calculate height^2 (inches)
+        mul  $t0, $s1, 12       # convert feet to inch
+        add  $t1, $t0, $s2      # calculate the total number of inches
+        mul  $t2, $t1, $t1      # calculate height^2 (inches)
 
-mul $t3, $s0, 703 # weight * 703
-div $t4, $t3, $t2 # weight * 703 / height^2, stores BMI in $t4
+        mul  $t3, $s0, 703      # calculate weight * 703
+        div  $t4, $t3, $t2      # weight * 703 / height^2, load value in $t4
 
-li $v0, 4
-la $a0, BMI
-syscall
+        li   $v0, print_str     # print BMI
+        la   $a0, BMI
+        syscall
 
-# prints BMI
-li $v0,1
-move $a0, $t4
-syscall
+        li   $v0, print_int
+        move $a0, $t4
+        syscall
 
-# end of program
+        li   $v0, sys_exit      # program exits
+        syscall
