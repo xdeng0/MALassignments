@@ -26,31 +26,31 @@ in_else: .asciiz "inside else"
 
 main:
 
-	li $s0, 15 				# int q = 5;
-	li $s1, 17 				# int y = 17
-	li $s2, -7 				# int x = 77;
+	li 	$s0, 15 				# int q = 5;
+	li 	$s1, 17 				# int y = 17
+	li 	$s2, -7 				# int x = 77;
 
-	bge $s0, 10, else_if 		  	# branch if !(q < 10)
-	li $v0, print_str 		  	# print "inside if"
-	la $a0, in_if
+	bge	$s0, 10, else_if 		  	# branch if !(q < 10)
+	li 	$v0, print_str 		  		# print "inside if"
+	la 	$a0, in_if
 	syscall
-	j exit 				  	# condition was met, no need to check other conditions
+	j 	exit 				  	# condition was met, no need to check other conditions
 
 else_if:
-	bgt $s2, 0, print_elseif 		# elseif (x > 0), if false, check next elseif condition
-	bge $s1, 10, print_else 		# !(y < 10), if true, print "inside else"
+	bgt 	$s2, 0, print_elseif 			# elseif (x > 0), if false, check next elseif condition
+	bge 	$s1, 10, print_else 			# !(y < 10), if true, print "inside else"
 
 print_elseif:
-	li $v0, print_str 			# print "inside elseif"
-	la $a0, in_elseif
+	li 	$v0, print_str 				# print "inside elseif"
+	la 	$a0, in_elseif
 	syscall
-	j exit 					# condition was met, exit out of conditional branch
+	j 	exit 					# condition was met, exit out of conditional branch
 
 print_else:
-	li $v0, print_str 			# print "inside else"
-	la $a0, in_else
+	li 	$v0, print_str 				# print "inside else"
+	la 	$a0, in_else
 	syscall
 
 exit:
-	li $v0, sys_exit			# program exits
+	li 	$v0, sys_exit				# program exits
 	syscall
